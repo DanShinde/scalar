@@ -244,12 +244,14 @@ describe('schemas', () => {
       })
     })
 
-    it('infers integer type from empty string (parsed as 0)', () => {
-      const result = inferSchemaType('')
+    it('infers string type from an empty or blank string', () => {
+      expect(inferSchemaType('')).toEqual({ type: 'string' })
+      expect(inferSchemaType('  ')).toEqual({ type: 'string' })
+    })
 
-      expect(result).toEqual({
-        type: 'integer',
-      })
+    it('infers string type from non-finite numbers', () => {
+      expect(inferSchemaType('Infinity')).toEqual({ type: 'string' })
+      expect(inferSchemaType('-Infinity')).toEqual({ type: 'string' })
     })
 
     it('infers string type when value is undefined', () => {

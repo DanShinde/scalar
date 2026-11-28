@@ -133,6 +133,24 @@ describe('parameters', () => {
       expect(result[0]?.examples?.default?.value).toBe('')
     })
 
+    it('keeps query and header parameters with empty values as strings', () => {
+      const request: Request = {
+        method: 'GET',
+        header: [{ key: 'X-Trace-Id', value: '' }],
+        url: {
+          raw: 'https://example.com/users?search=',
+          query: [{ key: 'search', value: '' }],
+        },
+      }
+
+      const result = extractParameters(request, 'default')
+
+      expect(result.map((parameter) => [parameter.in, parameter.schema])).toEqual([
+        ['query', { type: 'string' }],
+        ['header', { type: 'string' }],
+      ])
+    })
+
     it('extracts path parameters from path array', () => {
       const request: Request = {
         method: 'GET',

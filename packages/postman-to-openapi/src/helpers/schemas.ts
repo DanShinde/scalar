@@ -43,9 +43,10 @@ export function inferSchemaType(value: any): OpenAPIV3_1.NonArraySchemaObject {
   }
 
   if (typeof value === 'string') {
-    const num = Number(value)
+    // `Number('')` is 0, so an empty value would otherwise look like an integer.
+    const num = value.trim() === '' ? Number.NaN : Number(value)
 
-    if (!isNaN(num)) {
+    if (Number.isFinite(num)) {
       return { type: Number.isInteger(num) ? 'integer' : 'number' }
     }
 

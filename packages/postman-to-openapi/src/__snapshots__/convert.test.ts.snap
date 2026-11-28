@@ -1437,7 +1437,7 @@ exports[`fixtures > Headers 1`] = `
             "in": "header",
             "name": "No-value",
             "schema": {
-              "type": "integer",
+              "type": "string",
             },
           },
         ],
